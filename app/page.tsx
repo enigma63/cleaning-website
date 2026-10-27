@@ -1,32 +1,11 @@
+import { ServicesGrid } from "./ServicesGrid";
+
 export default function Page() {
   const phoneNumber = "+234 800 000 0000";
   const whatsappNumber = "2348000000000";
   const whatsappMessage = encodeURIComponent(
     "Hello, I’d like to request a cleaning quote."
   );
-
-  const services = [
-    {
-      title: "Home Cleaning",
-      description:
-        "Reliable cleaning for apartments, houses, and family homes with careful attention to kitchens, bathrooms, floors, and living spaces.",
-    },
-    {
-      title: "Office Cleaning",
-      description:
-        "Professional cleaning for offices and commercial spaces that keeps your workplace fresh, presentable, and ready for business.",
-    },
-    {
-      title: "Airbnb Cleaning",
-      description:
-        "Fast turnover cleaning for short-let and Airbnb properties so every guest arrives to a spotless, welcoming space.",
-    },
-    {
-      title: "Post-Construction Cleaning",
-      description:
-        "Detailed cleaning that removes dust, debris, and buildup after building or renovation work, leaving the property move-in ready.",
-    },
-  ];
 
   const benefits = [
     "Same-day service available",
@@ -163,17 +142,7 @@ export default function Page() {
                 we’re ready to help.
               </p>
             </div>
-            <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-              {services.map((service) => (
-                <div
-                  key={service.title}
-                  className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1"
-                >
-                  <h3 className="text-xl font-bold">{service.title}</h3>
-                  <p className="mt-3 leading-7 text-slate-600">{service.description}</p>
-                </div>
-              ))}
-            </div>
+            <ServicesGrid />
           </div>
         </section>
 
