@@ -1,6 +1,11 @@
+import Logo from "./components/Logo";
+import { business } from "./business";
+
 export default function Page() {
-  const phoneNumber = "+234 800 000 0000";
-  const whatsappNumber = "2348000000000";
+  const { phones, emails } = business;
+  const phoneNumber = phones[0].display;
+  const phoneLink = phones[0].tel;
+  const whatsappNumber = business.whatsapp;
   const whatsappMessage = encodeURIComponent(
     "Hello, I’d like to request a cleaning quote."
   );
@@ -37,28 +42,18 @@ export default function Page() {
     "Attention to detail and consistent results",
   ];
 
-  const testimonials = [
-    {
-      name: "Amina O.",
-      text: "They were prompt, respectful, and left my home spotless. I booked through WhatsApp and the process was very easy.",
-    },
-    {
-      name: "David E.",
-      text: "Our office looks cleaner and more professional since we started using them. Very dependable team.",
-    },
-    {
-      name: "Chioma N.",
-      text: "Excellent Airbnb turnover cleaning. They are quick, thorough, and reliable when I need same-day support.",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div>
-            <p className="text-lg font-bold tracking-tight">Your Cleaning Company</p>
-            <p className="text-sm text-slate-600">Professional Cleaning Services in Abuja</p>
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
+          <div className="flex items-center gap-3">
+            <Logo className="h-10 w-11 shrink-0" />
+            <div>
+              <p className="text-lg font-extrabold uppercase leading-tight tracking-tight text-blue-900">
+                {business.name}
+              </p>
+              <p className="text-sm text-slate-600">Professional Cleaning Services in Abuja</p>
+            </div>
           </div>
           <div className="hidden gap-3 sm:flex">
             <a
@@ -68,7 +63,7 @@ export default function Page() {
               WhatsApp Us
             </a>
             <a
-              href={`tel:${phoneNumber}`}
+              href={`tel:${phoneLink}`}
               className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
             >
               Call Now
@@ -100,7 +95,7 @@ export default function Page() {
                   Message Us on WhatsApp
                 </a>
                 <a
-                  href={`tel:${phoneNumber}`}
+                  href={`tel:${phoneLink}`}
                   className="rounded-2xl border border-slate-300 px-6 py-4 text-center text-base font-semibold text-slate-900 transition hover:bg-slate-50"
                 >
                   Call for a Free Quote
@@ -209,28 +204,7 @@ export default function Page() {
           </div>
         </section>
 
-        <section className="bg-slate-50 py-20">
-          <div className="mx-auto max-w-7xl px-6">
-            <div className="max-w-2xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">
-                Client Feedback
-              </p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">
-                What customers can expect
-              </h2>
-            </div>
-            <div className="mt-12 grid gap-6 md:grid-cols-3">
-              {testimonials.map((item) => (
-                <div key={item.name} className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
-                  <p className="leading-7 text-slate-600">“{item.text}”</p>
-                  <p className="mt-5 font-semibold text-slate-900">{item.name}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20">
+        <section id="contact" className="bg-slate-50 py-20">
           <div className="mx-auto max-w-5xl px-6">
             <div className="rounded-[2rem] bg-emerald-600 px-8 py-12 text-white shadow-xl md:px-12">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-100">
@@ -251,7 +225,7 @@ export default function Page() {
                   Chat on WhatsApp
                 </a>
                 <a
-                  href={`tel:${phoneNumber}`}
+                  href={`tel:${phoneLink}`}
                   className="rounded-2xl border border-white/70 px-6 py-4 text-center text-base font-semibold text-white transition hover:bg-white/10"
                 >
                   Call {phoneNumber}
@@ -263,20 +237,59 @@ export default function Page() {
       </main>
 
       <footer className="border-t border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-10 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto grid max-w-7xl gap-8 px-6 py-12 md:grid-cols-3">
           <div>
-            <p className="text-lg font-bold">Your Cleaning Company</p>
-            <p className="mt-1 text-slate-600">
+            <div className="flex items-center gap-3">
+              <Logo className="h-9 w-10 shrink-0" />
+              <p className="text-lg font-extrabold uppercase leading-tight text-blue-900">{business.name}</p>
+            </div>
+            <p className="mt-3 text-slate-600">
               Professional cleaning services for homes, offices, Airbnb, and post-construction spaces in Abuja.
             </p>
+            <p className="mt-2 text-sm text-slate-500">RC: {business.rcNumber}</p>
           </div>
           <div className="text-sm text-slate-600">
-            <p>Phone: {phoneNumber}</p>
-            <p>WhatsApp: {phoneNumber}</p>
-            <p>Service Area: Abuja, Nigeria</p>
+            <p className="font-semibold text-slate-900">Call or WhatsApp</p>
+            <ul className="mt-2 space-y-1">
+              {phones.map((phone) => (
+                <li key={phone.tel}>
+                  <a href={`tel:${phone.tel}`} className="hover:text-slate-900 hover:underline">
+                    {phone.display}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 font-semibold text-slate-900">Email</p>
+            <ul className="mt-2 space-y-1">
+              {emails.map((email) => (
+                <li key={email}>
+                  <a href={`mailto:${email}`} className="break-all hover:text-slate-900 hover:underline">
+                    {email}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="text-sm text-slate-600">
+            <p className="font-semibold text-slate-900">Office</p>
+            <address className="mt-2 not-italic leading-6">
+              {business.address.lines.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+            </address>
+            <p className="mt-4">Service Area: Abuja, Nigeria</p>
           </div>
         </div>
+        <div className="border-t border-slate-200 py-5 text-center text-xs text-slate-500">
+          © {new Date().getFullYear()} {business.name}. All rights reserved.
+        </div>
       </footer>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(business.jsonLd) }}
+      />
     </div>
   );
 }
