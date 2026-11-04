@@ -15,7 +15,11 @@ const geistMono = Geist_Mono({
 
 const title = "Atlanta Cleaners Nigeria Ltd | Cleaning Services in Abuja";
 
+// Netlify sets URL to the site's main address at build time (custom domain once connected).
+const siteUrl = process.env.URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title,
   description: business.description,
   keywords: [
