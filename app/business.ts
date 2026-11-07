@@ -20,9 +20,11 @@ const address = {
   locality: "Wuse 2, Abuja",
 };
 
+export const airportName = "Nnamdi Azikiwe International Airport";
+
 const name = "Atlanta Cleaners Nigeria Ltd";
 const description =
-  "Professional home, office, Airbnb and post-construction cleaning in Abuja. Trusted at the local wing of Abuja Airport. Call or WhatsApp for a free quote.";
+  "Professional home, office, Airbnb and post-construction cleaning in Abuja. Trusted to clean the local wing of Nnamdi Azikiwe International Airport. Call or WhatsApp for a free quote.";
 
 export const business = {
   name,
@@ -50,3 +52,8 @@ export const business = {
     areaServed: { "@type": "City", name: "Abuja" },
   },
 };
+
+// WhatsApp chat link with a pre-filled message.
+export function whatsappLink(message = "Hello, I’d like to request a cleaning quote.") {
+  return `https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`;
+}
