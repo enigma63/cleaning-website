@@ -1,3 +1,18 @@
+# Atlanta Cleaners Nigeria Ltd website
+
+## Writing a blog post
+
+Blog posts are Markdown files in `content/blog/`.
+
+1. Copy `content/blog/_template.md` and rename it. The file name becomes the web address, so `my-new-article.md` is published at `/blog/my-new-article`.
+2. Fill in the header between the `---` lines: title, description, date (YYYY-MM-DD), and optionally an image from `public/photos/`.
+3. Write the article underneath. You can use `## headings`, `- bullet lists`, `1. numbered lists`, `> tips`, `**bold**` and `[links](/#contact)`.
+4. A post with `draft: true` only shows when the site runs locally (`npm run dev`). Set it to `draft: false` to publish it.
+
+Posts are listed newest first, and the three latest also appear on the homepage. They are added to `/sitemap.xml` automatically.
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

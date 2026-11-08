@@ -4,13 +4,15 @@
 // and are hidden on the live site, so placeholder reviews and photos never go public.
 export const showSamples = process.env.NODE_ENV !== "production";
 
+// Links start with "/" so they also work from the blog pages.
 export const navLinks = [
-  { href: "#services", label: "Services" },
-  { href: "#airport", label: "Airport" },
-  { href: "#gallery", label: "Gallery" },
-  { href: "#about", label: "About" },
-  { href: "#faq", label: "FAQ" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#services", label: "Services" },
+  { href: "/#airport", label: "Airport" },
+  { href: "/#gallery", label: "Gallery" },
+  { href: "/#about", label: "About" },
+  { href: "/blog", label: "Blog" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export const services = [
@@ -104,6 +106,12 @@ export const gallery: { title: string; caption: string; src?: string }[] = [
   { title: "Entrances and steps", caption: "Outdoor areas cleared of dust and debris", src: "/photos/entrance-steps.jpg" },
   { title: "Our team", caption: "Trained, uniformed, and ready to work", src: "/photos/team.jpg" },
 ];
+
+// Gallery items that can be shown here (placeholders without a photo appear only locally).
+export const visibleGallery = gallery.filter((item) => showSamples || item.src);
+
+// Hide the Gallery link when there are no photos to show.
+export const siteNavLinks = navLinks.filter((link) => link.href !== "/#gallery" || visibleGallery.length > 0);
 
 export const faqs = [
   {

@@ -1,6 +1,8 @@
 import Image from "next/image";
-import Logo from "./components/Logo";
-import MobileMenu from "./components/MobileMenu";
+import Link from "next/link";
+import SiteFooter from "./components/SiteFooter";
+import SiteHeader from "./components/SiteHeader";
+import PostCard from "./components/PostCard";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 import {
   BuildingIcon,
@@ -16,7 +18,8 @@ import {
   WhatsAppIcon,
 } from "./components/Icons";
 import { airportName, business, whatsappLink } from "./business";
-import { faqs, gallery, navLinks, photos, services, showSamples, steps, testimonials } from "./content";
+import { faqs, gallery, photos, services, showSamples, steps, testimonials, visibleGallery } from "./content";
+import { getPosts } from "./blog/posts";
 
 const eyebrow = "text-sm font-semibold uppercase tracking-[0.2em] text-[#2e9e4f]";
 const sectionTitle = "mt-3 text-3xl font-extrabold tracking-tight text-[#0f2a6b] md:text-4xl";
@@ -28,13 +31,12 @@ const btnGhost =
   "inline-flex items-center justify-center gap-2 rounded-2xl border border-white/40 px-6 py-4 text-base font-semibold text-white transition hover:bg-white/10";
 
 export default function Page() {
-  const { phones, emails } = business;
+  const { phones } = business;
   const phoneHref = `tel:${phones[0].tel}`;
   const whatsappHref = whatsappLink();
 
   const visibleTestimonials = testimonials.filter((t) => showSamples || !t.sample);
-  const visibleGallery = gallery.filter((item) => showSamples || item.src);
-  const links = navLinks.filter((link) => link.href !== "#gallery" || visibleGallery.length > 0);
+  const latestPosts = getPosts().slice(0, 3);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -48,46 +50,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
-        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3">
-          <a href="#top" className="flex min-w-0 items-center gap-3">
-            <Logo className="h-10 w-11 shrink-0" />
-            <div className="min-w-0">
-              <p className="text-base font-extrabold uppercase leading-tight tracking-tight text-[#1d3f9a] sm:text-lg">
-                {business.name}
-              </p>
-              <p className="hidden text-xs text-slate-500 sm:block">Professional Cleaning Services · Abuja</p>
-            </div>
-          </a>
-          <nav className="hidden xl:block" aria-label="Main">
-            <ul className="flex items-center gap-7 whitespace-nowrap text-sm font-medium text-slate-700">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <a href={link.href} className="transition hover:text-[#1d3f9a]">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <div className="hidden shrink-0 gap-3 xl:flex">
-            <a
-              href={phoneHref}
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
-            >
-              <PhoneIcon className="h-4 w-4" /> Call
-            </a>
-            <a
-              href={whatsappHref}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#1d3f9a] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0f2a6b]"
-            >
-              <WhatsAppIcon className="h-4 w-4" /> Get a Free Quote
-            </a>
-          </div>
-          <MobileMenu links={links} whatsappHref={whatsappHref} phoneHref={phoneHref} />
-        </div>
-      </header>
+      <SiteHeader />
 
       <main id="top">
         {/* Hero: airport glass-wall photo as the main image */}
@@ -454,6 +417,28 @@ export default function Page() {
           </div>
         </section>
 
+        {/* Latest blog posts */}
+        {latestPosts.length > 0 && (
+          <section id="blog" className="scroll-mt-20 py-20 md:py-24">
+            <div className="mx-auto max-w-7xl px-6">
+              <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+                <div className="max-w-2xl">
+                  <p className={eyebrow}>From Our Blog</p>
+                  <h2 className={sectionTitle}>Cleaning tips from the experts</h2>
+                </div>
+                <Link href="/blog" className="text-sm font-semibold text-[#1d3f9a] hover:underline">
+                  View all articles →
+                </Link>
+              </div>
+              <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {latestPosts.map((post) => (
+                  <PostCard key={post.slug} post={post} />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Contact CTA */}
         <section id="contact" className="scroll-mt-20 px-6 pb-20 md:pb-24">
           <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-[#0f2a6b] px-8 py-14 text-white shadow-2xl md:px-14">
@@ -487,58 +472,7 @@ export default function Page() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="mx-auto grid max-w-7xl gap-8 px-6 py-12 md:grid-cols-3">
-          <div>
-            <div className="flex items-center gap-3">
-              <Logo className="h-9 w-10 shrink-0" />
-              <p className="text-lg font-extrabold uppercase leading-tight text-[#1d3f9a]">{business.name}</p>
-            </div>
-            <p className="mt-3 text-slate-600">
-              Professional cleaning for homes, offices, Airbnb, and post-construction spaces in Abuja. Trusted at the
-              local wing of {airportName}.
-            </p>
-            <p className="mt-2 text-sm text-slate-500">RC: {business.rcNumber}</p>
-          </div>
-          <div className="text-sm text-slate-600">
-            <p className="font-semibold text-slate-900">Call or WhatsApp</p>
-            <ul className="mt-2 space-y-1">
-              {phones.map((phone) => (
-                <li key={phone.tel}>
-                  <a href={`tel:${phone.tel}`} className="hover:text-slate-900 hover:underline">
-                    {phone.display}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 font-semibold text-slate-900">Email</p>
-            <ul className="mt-2 space-y-1">
-              {emails.map((email) => (
-                <li key={email}>
-                  <a href={`mailto:${email}`} className="break-all hover:text-slate-900 hover:underline">
-                    {email}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="text-sm text-slate-600">
-            <p className="font-semibold text-slate-900">Office</p>
-            <address className="mt-2 not-italic leading-6">
-              {business.address.lines.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
-            </address>
-            <p className="mt-4">Service Area: Abuja, Nigeria</p>
-          </div>
-        </div>
-        <div className="border-t border-slate-200 py-5 pb-24 text-center text-xs text-slate-500 sm:pb-5">
-          © {new Date().getFullYear()} {business.name}. All rights reserved.
-        </div>
-      </footer>
+      <SiteFooter />
 
       <WhatsAppFloat href={whatsappHref} />
 
